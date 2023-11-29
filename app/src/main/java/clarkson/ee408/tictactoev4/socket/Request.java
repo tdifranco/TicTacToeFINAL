@@ -5,7 +5,6 @@ import clarkson.ee408.tictactoev4.model.*;
 /**
  * Class for all request sent by the client to the server
  *
- * @author Ahmad Suleiman
  */
 public class Request {
 

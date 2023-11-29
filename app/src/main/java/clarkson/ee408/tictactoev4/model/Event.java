@@ -3,7 +3,6 @@ package clarkson.ee408.tictactoev4.model;
 /**
  * Model class for a game event between two players in a TicTacToe game
  *
- * @author Ahmad Suleiman
  */
 public class Event {
 

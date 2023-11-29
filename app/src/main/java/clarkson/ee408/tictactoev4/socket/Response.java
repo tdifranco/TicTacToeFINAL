@@ -3,7 +3,6 @@ package clarkson.ee408.tictactoev4.socket;
 /**
  *  Response class sent by the server in response to client request
  *
- * @author Ahmad Suleiman
  */
 public class Response {
 

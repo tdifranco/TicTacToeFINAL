@@ -5,7 +5,6 @@ import clarkson.ee408.tictactoev4.model.Event;
 /**
  *  Subclass of {@link Response}
  *	This response class is used in response to clients request of type {@link Request.RequestType#REQUEST_MOVE}
- *  @author Ahmad Suleiman
  */
 public class GamingResponse extends Response {
 

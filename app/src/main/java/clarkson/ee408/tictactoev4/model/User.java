@@ -3,7 +3,6 @@ package clarkson.ee408.tictactoev4.model;
 /**
  * Model class for a user that plays TicTacToe game
  *
- * @author Ahmad Suleiman
  */
 public class User {
     /**

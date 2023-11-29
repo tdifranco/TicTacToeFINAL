@@ -50,8 +50,8 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         // TODO: Create User object with username and password and call submitLogin()
-        User user1 = new User(username, password);
-        submitLogin(user1);
+        User user = new User(username, password);
+        submitLogin(user);
 
     }
 
