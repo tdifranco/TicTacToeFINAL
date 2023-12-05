@@ -1,5 +1,6 @@
 package clarkson.ee408.tictactoev4;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,7 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import clarkson.ee408.tictactoev4.client.AppExecutors;
+import clarkson.ee408.tictactoev4.client.SocketClient;
 import clarkson.ee408.tictactoev4.model.User;
+import clarkson.ee408.tictactoev4.socket.GamingResponse;
+import clarkson.ee408.tictactoev4.socket.PairingResponse;
+import clarkson.ee408.tictactoev4.socket.Request;
+import clarkson.ee408.tictactoev4.socket.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -61,7 +69,24 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void submitLogin(User user) {
         // TODO: Send a LOGIN request, If SUCCESS response, call gotoPairing(), else, Toast the error message from sever
+        Request request = new Request();
+        request.setType(Request.RequestType.LOGIN);
+        request.setData(gson.toJson(user)); // Serialize the User object to JSON
 
+        AppExecutors.getInstance().networkIO().execute(() -> {
+            PairingResponse response = SocketClient.getInstance().sendRequest(request, PairingResponse.class);
+            AppExecutors.getInstance().mainThread().execute(() -> {
+                if (response != null) {
+                    if (response.getStatus() == Response.ResponseStatus.SUCCESS) {
+                        gotoPairing(user.getUsername());
+                    } else {
+                        Toast.makeText(getApplicationContext(), response.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_LONG).show();
+                }
+            });
+        });
     }
 
     /**
@@ -70,7 +95,8 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void gotoPairing(String username) {
         // TODO: start PairingActivity and pass the username
-
+            Intent intent = new Intent(this, PairingActivity.class);
+            startActivity(intent);
     }
 
     /**
@@ -78,5 +104,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void gotoRegister() {
         // TODO: start RegisterActivity
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 }

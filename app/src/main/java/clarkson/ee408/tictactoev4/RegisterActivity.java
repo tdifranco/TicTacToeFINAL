@@ -14,6 +14,7 @@ import com.google.gson.GsonBuilder;
 import clarkson.ee408.tictactoev4.client.AppExecutors;
 import clarkson.ee408.tictactoev4.client.SocketClient;
 import clarkson.ee408.tictactoev4.model.User;
+import clarkson.ee408.tictactoev4.socket.GamingResponse;
 import clarkson.ee408.tictactoev4.socket.Request;
 import clarkson.ee408.tictactoev4.socket.Response;
 
@@ -93,6 +94,25 @@ public class RegisterActivity extends AppCompatActivity {
      */
     void submitRegistration(User user) {
         //TODO: Send a REGISTER request to the server, if SUCCESS reponse, call goBackLogin(). Else, Toast the error message
+        Request request = new Request();
+        request.setType(Request.RequestType.REGISTER);
+        request.setData(gson.toJson(user)); // Serialize the User object to JSON
+
+        AppExecutors.getInstance().networkIO().execute(() -> {
+            Response response = SocketClient.getInstance().sendRequest(request, Response.class);
+
+            AppExecutors.getInstance().mainThread().execute(() -> {
+                if (response != null) {
+                    if (response.getStatus() == Response.ResponseStatus.SUCCESS) {
+                        goBackLogin();
+                    } else {
+                        Toast.makeText(getApplicationContext(), response.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_LONG).show();
+                }
+            });
+        });
     }
 
     /**
@@ -100,6 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private void goBackLogin() {
         //TODO: Close this activity by calling finish(), it will automatically go back to its parent (i.e,. LoginActivity)
+        finish();
     }
 
 }
