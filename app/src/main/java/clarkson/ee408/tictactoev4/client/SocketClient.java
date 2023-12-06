@@ -111,7 +111,7 @@ public class SocketClient {
      * Closes the socket connection with the server and all IO Streams
      * Destruct the singleton instance
      */
-    public void close() {
+    public static void close() {
         try {
             if(socket != null) socket.close();
             if(inputStream != null) inputStream.close();
