@@ -33,17 +33,17 @@ public class SocketClient {
     /**
      * Socket connection with the server
      */
-    private Socket socket;
+    private static Socket socket;
 
     /**
      * Stream used to read (receive) server response to our request
      */
-    private DataInputStream inputStream;
+    private static DataInputStream inputStream;
 
     /**
      * Stream used to write (send) our request to the server
      */
-    private DataOutputStream outputStream;
+    private static DataOutputStream outputStream;
 
     /**
      * A static function that serves as a getter for the only class instance
@@ -111,7 +111,7 @@ public class SocketClient {
      * Closes the socket connection with the server and all IO Streams
      * Destruct the singleton instance
      */
-    public void close() {
+    public static void close() {
         try {
             if(socket != null) socket.close();
             if(inputStream != null) inputStream.close();
