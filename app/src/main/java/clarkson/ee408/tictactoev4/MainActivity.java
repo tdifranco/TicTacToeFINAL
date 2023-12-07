@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
-        tttGame = new TicTacToe(2);
+        tttGame = new TicTacToe(getIntent().getIntExtra("Player number", 0));
         buildGuiByCode( );
 
         gson = new GsonBuilder().serializeNulls().create();
