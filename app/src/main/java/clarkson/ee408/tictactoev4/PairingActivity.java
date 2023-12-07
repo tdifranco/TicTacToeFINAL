@@ -112,19 +112,20 @@ public class PairingActivity extends AppCompatActivity {
         updateAvailableUsers(response.getAvailableUsers());
         // TODO: handle invitationResponse. First by sending acknowledgement calling sendAcknowledgement()
         Event invitationResponse = response.getInvitationResponse();
-        if (invitationResponse !=  null)
-         sendAcknowledgement(response.getInvitationResponse());
-        // --TODO: If the invitationResponse is ACCEPTED, Toast an accept message and call beginGame
-        if (invitationResponse.getStatus() == Event.EventStatus.ACCEPTED)
-            beginGame(response.getInvitation(), 1);
-        // --TODO: If the invitationResponse is DECLINED, Toast a decline message
-        else if(invitationResponse.getStatus() == Event.EventStatus.DECLINED){
-            Toast.makeText(this, "Invitation declined", Toast.LENGTH_LONG).show();
+        if (invitationResponse !=  null) {
+            sendAcknowledgement(invitationResponse);
+            // --TODO: If the invitationResponse is ACCEPTED, Toast an accept message and call beginGame
+            if (invitationResponse.getStatus() == Event.EventStatus.ACCEPTED)
+                beginGame(invitationResponse, 1);
+                // --TODO: If the invitationResponse is DECLINED, Toast a decline message
+            else if (invitationResponse.getStatus() == Event.EventStatus.DECLINED) {
+                Toast.makeText(this, "Invitation declined", Toast.LENGTH_LONG).show();
+            }
         }
         // TODO: handle invitation by calling createRespondAlertDialog()
         Event invitation = response.getInvitation();
         if(invitation != null) {
-        createRespondAlertDialog(invitation);
+            createRespondAlertDialog(invitation);
         }
     }
 
