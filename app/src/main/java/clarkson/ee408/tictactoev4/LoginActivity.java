@@ -14,8 +14,6 @@ import com.google.gson.GsonBuilder;
 import clarkson.ee408.tictactoev4.client.AppExecutors;
 import clarkson.ee408.tictactoev4.client.SocketClient;
 import clarkson.ee408.tictactoev4.model.User;
-import clarkson.ee408.tictactoev4.socket.GamingResponse;
-import clarkson.ee408.tictactoev4.socket.PairingResponse;
 import clarkson.ee408.tictactoev4.socket.Request;
 import clarkson.ee408.tictactoev4.socket.Response;
 
@@ -36,9 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         usernameField = findViewById(R.id.editTextUsername);
         passwordField = findViewById(R.id.editTextPassword);
 
-         Gson gson = new GsonBuilder()
-                 .serializeNulls()
-                 .create();
+        gson = new GsonBuilder().serializeNulls().create();
 
         //Adding Handlers
         loginButton.setOnClickListener(view -> handleLogin());
@@ -52,15 +48,16 @@ public class LoginActivity extends AppCompatActivity {
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
 
-        // TODO: verify that all fields are not empty before proceeding. Toast with the error message
         if (username.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Username and password cannot be empty", Toast.LENGTH_SHORT).show();
             return;
         }
-        // TODO: Create User object with username and password and call submitLogin()
-        User user = new User(username, password);
-        submitLogin(user);
 
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+
+        submitLogin(user);
     }
 
     /**
@@ -69,42 +66,40 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void submitLogin(User user) {
         // TODO: Send a LOGIN request, If SUCCESS response, call gotoPairing(), else, Toast the error message from sever
-        Request request = new Request();
-        request.setType(Request.RequestType.LOGIN);
-        request.setData(gson.toJson(user)); // Serialize the User object to JSON
+        Request request = new Request(Request.RequestType.LOGIN, gson.toJson(user));
 
         AppExecutors.getInstance().networkIO().execute(() -> {
-            PairingResponse response = SocketClient.getInstance().sendRequest(request, PairingResponse.class);
+            // Send the request using the SocketClient
+            SocketClient socketClient = SocketClient.getInstance();
+            Response response = socketClient.sendRequest(request, Response.class);
             AppExecutors.getInstance().mainThread().execute(() -> {
-                if (response != null) {
-                    if (response.getStatus() == Response.ResponseStatus.SUCCESS) {
-                        gotoPairing(user.getUsername());
-                    } else {
-                        Toast.makeText(getApplicationContext(), response.getMessage(), Toast.LENGTH_LONG).show();
-                    }
+                if (response != null && response.getStatus() == Response.ResponseStatus.SUCCESS) {
+                    gotoPairing(user.getUsername());
                 } else {
-                    Toast.makeText(getApplicationContext(), "Network Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
                 }
             });
         });
     }
+
 
     /**
      * Switch the page to {@link PairingActivity}
      * @param username the data to send
      */
     public void gotoPairing(String username) {
-        // TODO: start PairingActivity and pass the username
-            Intent intent = new Intent(this, PairingActivity.class);
-            startActivity(intent);
+        Intent intent = new Intent(LoginActivity.this, PairingActivity.class);
+        intent.putExtra("USERNAME", username);
+        startActivity(intent);
+
     }
 
     /**
      * Switch the page to {@link RegisterActivity}
      */
     public void gotoRegister() {
-        // TODO: start RegisterActivity
-        Intent intent = new Intent(this, RegisterActivity.class);
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
+
     }
 }
