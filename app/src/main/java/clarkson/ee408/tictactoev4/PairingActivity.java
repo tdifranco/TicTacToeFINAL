@@ -163,7 +163,7 @@ public class PairingActivity extends AppCompatActivity {
                 if (response != null && response.getStatus() == Response.ResponseStatus.SUCCESS) {
                     Toast.makeText(this, "Invite Sent!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Invite Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Invite Failed to send, server error", Toast.LENGTH_SHORT).show();
                 }
             });
         });
@@ -183,7 +183,7 @@ public class PairingActivity extends AppCompatActivity {
             Response response = socketClient.sendRequest(request, Response.class);
             AppExecutors.getInstance().mainThread().execute(() -> {
                 if (response != null && response.getStatus() == Response.ResponseStatus.SUCCESS) {
-                    Toast.makeText(this, "Acknowledged Response!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Acknowledged Invite", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Acknowledged Failed", Toast.LENGTH_SHORT).show();
                 }
@@ -223,7 +223,7 @@ public class PairingActivity extends AppCompatActivity {
                 if (response != null && response.getStatus() == Response.ResponseStatus.SUCCESS) {
                     beginGame(invitation ,2); // changed pairing event to invitation because it is a event but not sure if that is correct
                 } else {
-                    Toast.makeText(this, "Accepting the Invite Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Accepting the Invite Failed, server error", Toast.LENGTH_SHORT).show();
                 }
             });
         });
@@ -244,9 +244,9 @@ public class PairingActivity extends AppCompatActivity {
             Response response = socketClient.sendRequest(request, Response.class);
             AppExecutors.getInstance().mainThread().execute(() -> {
                 if (response != null && response.getStatus() == Response.ResponseStatus.SUCCESS) {
-                    Toast.makeText(this, "Invite Declined", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Invitation Declined", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "Declined Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Server error", Toast.LENGTH_SHORT).show();
                 }
             });
         });
