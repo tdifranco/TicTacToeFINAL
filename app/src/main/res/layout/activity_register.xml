@@ -22,15 +22,6 @@
             tools:layout_editor_absoluteX="100dp"
             tools:layout_editor_absoluteY="227dp" />
 
-        <EditText
-            android:id="@+id/editTextConfirmPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"
-            tools:layout_editor_absoluteX="100dp"
-            tools:layout_editor_absoluteY="431dp" />
 
         <EditText
             android:id="@+id/editTextPassword"
@@ -42,6 +33,15 @@
             tools:layout_editor_absoluteX="100dp"
             tools:layout_editor_absoluteY="370dp" />
 
+        <EditText
+            android:id="@+id/editTextConfirmPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            tools:layout_editor_absoluteX="100dp"
+            tools:layout_editor_absoluteY="431dp" />
 
         <EditText
             android:id="@+id/editTextDisplayName"
