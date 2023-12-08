@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int playerNumber = getIntent().getIntExtra("Player number", 0);
+        int playerNumber = getIntent().getIntExtra("PLAYER", 1);
         tttGame = new TicTacToe(playerNumber);
         buildGuiByCode();
 

@@ -115,7 +115,7 @@ public class PairingActivity extends AppCompatActivity {
             // --TODO: If the invitationResponse is ACCEPTED, Toast an accept message and call beginGame
             if (invitationResponse.getStatus() == Event.EventStatus.ACCEPTED) {
                 Toast.makeText(this, "Invitation Accepted", Toast.LENGTH_SHORT).show();
-                beginGame(invitationResponse,1);// not sure if this is right just knew i needed parameters
+                beginGame(invitationResponse,1);// not sure if this is right
             }
             // --TODO: If the invitationResponse is DECLINED, Toast a decline message
             else if (invitationResponse.getStatus() == Event.EventStatus.DECLINED) {
